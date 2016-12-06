@@ -45,6 +45,7 @@ class KarrEnvironment(Environment, Named):
 
     def command(self, action):
         speed = 255
+	print action
         if action == "q":
             self.car.forward(speed)
             self.car.left(speed)
@@ -71,13 +72,14 @@ class KarrEnvironment(Environment, Named):
             self.car.stop()
 
     def performAction(self, action):
+	action = 1
         if self.stochAction > 0:
             if random() < self.stochAction:
                 action = choice(list(range(len(self.allActions))))
         tmp = self.command(self.allActions[action])
 
     def getDistance(self):
-        return 1
+        return [1, 2, 3, 4]
 
     def getSensors(self):
         return self.getDistance()

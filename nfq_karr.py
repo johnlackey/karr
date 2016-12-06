@@ -22,7 +22,7 @@ env = KarrEnvironment()
 
 module = ActionValueNetwork(4, 3)
 
-task = KarrTask(env, 100)
+task = KarrTask(env)
 learner = NFQ()
 learner.explorer.epsilon = 0.4
 
@@ -45,24 +45,25 @@ if not render:
 
 while(True):
 	# one learning step after one episode of world-interaction
-    experiment.doEpisodes(1)
+    #experiment.doInteractionsAndLearn(10)
+    experiment.doInteractions(10)
     agent.learn(1)
 
     # test performance (these real-world experiences are not used for training)
-    if render:
-        env.delay = True
-    experiment.agent = testagent
-    r = mean([sum(x) for x in experiment.doEpisodes(5)])
-    env.delay = False
-    testagent.reset()
-    experiment.agent = agent
+    #if render:
+    #    env.delay = True
+    #experiment.agent = testagent
+    #r = mean([sum(x) for x in experiment.doInteractions(5)])
+    #env.delay = False
+    #testagent.reset()
+    #experiment.agent = agent
 
-    performance.append(r)
-    if not render:
-        plotPerformance(performance, pf_fig)
+    #performance.append(r)
+    #if not render:
+    #    plotPerformance(performance, pf_fig)
 
-    print("reward avg", r)
-    print("explorer epsilon", learner.explorer.epsilon)
-    print("num episodes", agent.history.getNumSequences())
-    print("update step", len(performance))
+    #print("reward avg", r)
+    #print("explorer epsilon", learner.explorer.epsilon)
+    #print("num episodes", agent.history.getNumSequences())
+    #print("update step", len(performance))
 

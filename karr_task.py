@@ -2,7 +2,6 @@ __author__ = 'Tom Schaul, tom@idsia.ch'
 
 from scipy import array
 
-from .pomdp import POMDPTask
 from pybrain.rl.environments.mazes import Maze
 from pybrain.rl.environments.task import Task
 
@@ -26,20 +25,17 @@ class KarrTask(Task):
     def noisy(self):
         return self.stochObs > 0
 
-    def __init__(self, **args):
-        self.setArgs(**args)
-        Task.__init__(self, self.mazeclass(self.topology, self.goal, initPos=self.initPos,
-                                           stochObs=self.stochObs, stochAction=self.stochAction))
+    def __init__(self, env):
+        Task.__init__(self, env)
         self.minReward = min(self.bangPenalty, self.defaultPenalty)
-        self.reset()
 
     def getReward(self):
-        if self.env.perseus == self.env.goal:
-            return self.finalReward
-        elif self.env.bang:
-            return self.bangPenalty
-        else:
-            return self.defaultPenalty
+        #if 100 == 0:
+        #    return self.finalReward
+        #elif self.env.bang:
+        #    return self.bangPenalty
+        #else:
+        return self.defaultPenalty
 
     def isFinished(self):
         return self.env.perseus == self.env.goal or POMDPTask.isFinished(self)
