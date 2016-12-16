@@ -5,6 +5,7 @@
 # License: MIT License https://opensource.org/licenses/MIT
 import time
 import atexit
+import RPi.GPIO as GPIO
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT
 
@@ -37,6 +38,14 @@ class Car(object):
         # Configure all motors to stop at program exit if desired.
         if stop_at_exit:
             atexit.register(self.stop)
+	# setup ultrasonic sensor
+	this.TRIG = 11
+	this.ECHO = 12
+	GPIO.setmode(GPIO.BOARD)
+	##CONTINUEE HERE
+	#
+	#https://www.sunfounder.com/learn/sensor-kit-v2-0-for-raspberry-pi-b-plus/lesson-25-ultrasonic-ranging-module-sensor-kit-v2-0-for-b-plus.html
+
 
     def _drive_speed(self, speed):
         """Set the speed of the drive motor, taking into account its trim offset.
