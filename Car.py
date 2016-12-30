@@ -3,9 +3,11 @@
 # example of using this class.
 # Author: Tony DiCola
 # License: MIT License https://opensource.org/licenses/MIT
-import time
+import array
 import atexit
+import time
 import RPi.GPIO as GPIO
+#import statistics
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT
 
@@ -39,12 +41,13 @@ class Car(object):
         if stop_at_exit:
             atexit.register(self.stop)
 	# setup ultrasonic sensor
-	this.TRIG = 11
-	this.ECHO = 12
-	GPIO.setmode(GPIO.BOARD)
-	##CONTINUEE HERE
-	#
-	#https://www.sunfounder.com/learn/sensor-kit-v2-0-for-raspberry-pi-b-plus/lesson-25-ultrasonic-ranging-module-sensor-kit-v2-0-for-b-plus.html
+        self.TRIG = 11
+        self.ECHO = 12
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self.TRIG, GPIO.OUT)
+        GPIO.setup(self.ECHO, GPIO.IN)
+        #
+        #https://www.sunfounder.com/learn/sensor-kit-v2-0-for-raspberry-pi-b-plus/lesson-25-ultrasonic-ranging-module-sensor-kit-v2-0-for-b-plus.html
 
 
     def _drive_speed(self, speed):
@@ -130,3 +133,30 @@ class Car(object):
         if seconds is not None:
             time.sleep(seconds)
             self.stop()
+
+    def raw_distance(self):
+        GPIO.output(self.TRIG, 0)
+        time.sleep(0.000002)
+        GPIO.output(self.TRIG, 1)
+        time.sleep(0.00001)
+        GPIO.output(self.TRIG, 0)
+        while GPIO.input(self.ECHO) == 0:
+            a = 0
+            time1 = time.time()
+        while GPIO.input(self.ECHO) == 1:
+            a = 1
+            time2 = time.time()
+        during = time2 - time1
+        distance_value = during * 340 / 2 * 100
+        print( "Distance: %d" % distance_value )
+        return distance_value
+
+    def distance(self):
+	sum = 0.0
+	for i in range(10):
+            sum += self.raw_distance()
+        return sum / 10
+
+    def destroy():
+        GPIO.cleanup()
+

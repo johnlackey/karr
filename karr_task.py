@@ -35,7 +35,13 @@ class KarrTask(Task):
         #elif self.env.bang:
         #    return self.bangPenalty
         #else:
-        return self.defaultPenalty
+        #return self.defaultPenalty
+        if self.env.getDistance() <= 10:
+	    reward =  -2
+        else:
+	    reward = 1 * self.env.getDirection() 
+	print "Reward: %d", reward
+	return reward
 
     def isFinished(self):
         return self.env.perseus == self.env.goal or POMDPTask.isFinished(self)
