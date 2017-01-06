@@ -28,7 +28,7 @@ learner = NFQ()
 learner.explorer.epsilon = 0.4
 
 agent = LearningAgent(module, learner)
-agent.module.netork = NetworkReader.readFrom("savedNetwork.xml")
+agent.module.network = NetworkReader.readFrom("savedNetwork.xml")
 testagent = LearningAgent(module, None)
 experiment = ContinuousExperiment(task, agent)
 
