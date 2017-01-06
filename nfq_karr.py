@@ -12,6 +12,7 @@ from pybrain.rl.explorers import BoltzmannExplorer
 
 from numpy import array, arange, meshgrid, pi, zeros, mean
 from matplotlib import pyplot as plt
+from pybrain.tools.customxml import NetworkWriter, NetworkReader
 
 # switch this to True if you want to see the cart balancing the pole (slower)
 render = False
@@ -40,13 +41,13 @@ def plotPerformance(values, fig):
 
 performance = []
 
-if not render:
-    pf_fig = plt.figure()
+#if not render:
+pf_fig = plt.figure()
 
 
 experiment.doInteractions(10)
 while(True):
-	# one learning step after one episode of world-interaction
+    # one learning step after one episode of world-interaction
     experiment.doInteractionsAndLearn(10)
     #r = mean([sum(x) for x in experiment.doInteractions(10)])
     #agent.learn(1)
@@ -65,6 +66,7 @@ while(True):
     #if not render:
     plotPerformance(performance, pf_fig)
 
+    NetworkWriter.writeToFile(agent.module, "savedNetwork.xml")
     print("reward avg", r)
     print("explorer epsilon", learner.explorer.epsilon)
     print("num episodes", agent.history.getNumSequences())
