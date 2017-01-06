@@ -66,7 +66,7 @@ while(True):
     #if not render:
     plotPerformance(performance, pf_fig)
 
-    NetworkWriter.writeToFile(agent.module, "savedNetwork.xml")
+    NetworkWriter.writeToFile(agent.module.network, "savedNetwork.xml")
     print("reward avg", r)
     print("explorer epsilon", learner.explorer.epsilon)
     print("num episodes", agent.history.getNumSequences())
