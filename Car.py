@@ -148,14 +148,19 @@ class Car(object):
             time2 = time.time()
         during = time2 - time1
         distance_value = during * 340 / 2 * 100
-        print( "Distance: %d" % distance_value )
+        print( "Raw Distance: %d" % distance_value )
         return distance_value
 
     def distance(self):
-	sum = 0.0
-	for i in range(10):
-            sum += self.raw_distance()
-        return sum / 10
+	#sum = 0.0
+	list = []
+	for i in range(9):
+            #sum += self.raw_distance()
+            list.append(self.raw_distance())
+        list.sort()
+        print( "Distance: %d" % list[4] )
+        return list[4]
+        #return sum / 10
 
     def destroy():
         GPIO.cleanup()
