@@ -22,13 +22,14 @@ plt.ion()
 env = KarrEnvironment()
 
 module = ActionValueNetwork(1, 7)
+module.network = NetworkReader.readFrom("savedNetwork.xml")
 
 task = KarrTask(env)
 learner = NFQ()
 learner.explorer.epsilon = 0.4
 
 agent = LearningAgent(module, learner)
-agent.module.network = NetworkReader.readFrom("savedNetwork.xml")
+
 testagent = LearningAgent(module, None)
 experiment = ContinuousExperiment(task, agent)
 
