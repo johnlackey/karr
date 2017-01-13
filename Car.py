@@ -135,7 +135,7 @@ class Car(object):
             self.stop()
 
     def raw_distance(self):
-        if GPIO.input(self>ECHO):
+        if GPIO.input(self.ECHO):
             return(100)
         distance = 0
         GPIO.output(self.TRIG, 0)
@@ -153,7 +153,7 @@ class Car(object):
                 distance = 100
                 break
         if distance == 100:
-            return (distance_value)
+            return (distance)
         while GPIO.input(self.ECHO) == 1:
             a = 1
             time2 = time.time()
