@@ -46,7 +46,7 @@ class KarrEnvironment(Environment, Named):
         self.car = Car.Car()
 
     def command(self, action):
-        speed = 100
+        speed = 200
         print(action)
         if action == "q":
             self.car.forward(speed)
