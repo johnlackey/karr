@@ -172,7 +172,10 @@ class Car(object):
 	list = []
 	for i in range(9):
             #sum += self.raw_distance()
-            list.append(self.raw_distance())
+            value = 100
+            while value == 100
+                value = self.raw_distance()
+            list.append(value)
         list.sort()
         print( "Distance: %d" % list[4] )
         return list[4]
