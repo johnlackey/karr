@@ -135,19 +135,35 @@ class Car(object):
             self.stop()
 
     def raw_distance(self):
+        if GPIO.input(self>ECHO):
+            return(100)
+        distance = 0
         GPIO.output(self.TRIG, 0)
-        time.sleep(0.000002)
+        time.sleep(0.05)
         GPIO.output(self.TRIG, 1)
-        time.sleep(0.00001)
+        dummy_variable = 0
+        dummy_variable = 0
+        #time.sleep(0.00001)
         GPIO.output(self.TRIG, 0)
+        time1, time2 = time.time(), time.time()
         while GPIO.input(self.ECHO) == 0:
             a = 0
             time1 = time.time()
+            if time1 - time2 > 0.02:
+                distance = 100
+                break
+        if distance == 100:
+            return (distance_value)
         while GPIO.input(self.ECHO) == 1:
             a = 1
             time2 = time.time()
+            if time2 - time1 > 0.02:
+                distance = 100
+                break
+        if distance == 100:
+            return(distance)
         during = time2 - time1
-        distance_value = during * 340 / 2 * 100
+        distance_value = during / 0.00000295 / 2 / 10
         print( "Raw Distance: %d" % distance_value )
         return distance_value
 
