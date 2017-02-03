@@ -158,9 +158,9 @@ class Car(object):
             a = 1
             time2 = time.time()
             if time2 - time1 > 0.02:
-                distance = 100
+                distance = 500
                 break
-        if distance == 100:
+        if distance == 500:
             return(distance)
         during = time2 - time1
         distance_value = during / 0.00000295 / 2 / 10
@@ -173,7 +173,7 @@ class Car(object):
 	for i in range(9):
             #sum += self.raw_distance()
             value = 100
-            while value == 100
+            while value == 100:
                 value = self.raw_distance()
             list.append(value)
         list.sort()
