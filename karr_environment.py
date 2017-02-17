@@ -46,7 +46,7 @@ class KarrEnvironment(Environment, Named):
         self.car = Car.Car()
 
     def command(self, action):
-        speed = 100
+        speed = 200
         print(action)
         if action == "q":
             self.car.forward(speed)
@@ -97,11 +97,11 @@ class KarrEnvironment(Environment, Named):
     def getDirection(self):
         return self.direction
 
-    def getDistance(self):
-        return self.car.distance()
+    def getDistance(self, sensor = 0):
+        return self.car.distance(sensor)
 
     def getSensors(self):
-        return [self.getDistance()]
+        return [self.getDistance(0), self.getDistance(1), self.getDistance(2)]
 
 
 

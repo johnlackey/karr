@@ -21,8 +21,11 @@ plt.ion()
 
 env = KarrEnvironment()
 
-module = ActionValueNetwork(1, 7)
-module.network = NetworkReader.readFrom("savedNetwork.xml")
+module = ActionValueNetwork(3, 7)
+try:
+  module.network = NetworkReader.readFrom("savedNetwork.xml")
+except:
+  print("No network file")
 
 task = KarrTask(env)
 learner = NFQ()

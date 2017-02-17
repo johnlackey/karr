@@ -36,11 +36,11 @@ class KarrTask(Task):
         #    return self.bangPenalty
         #else:
         #return self.defaultPenalty
-        if self.env.getDistance() < 50:
+        if min(self.env.getSensors()) < 50:
 	    reward =  -2
         else:
 	    reward = 1 * self.env.getDirection() 
-	print "Reward: %d", reward
+	print "Reward: %d" % reward
 	return reward
 
     def isFinished(self):
