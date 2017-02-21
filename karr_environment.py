@@ -11,20 +11,20 @@ import time
 # TODO: mazes can have any number of dimensions?
 import Car
 
-class KarrEnvironment(Environment, Named):
 
+class KarrEnvironment(Environment, Named):
     car = None
     # table of booleans
-    #mazeTable = None
+    # mazeTable = None
 
     # single goal
-    #goal = None
+    # goal = None
 
     # current state
-    #perseus = None
+    # perseus = None
 
     # list of possible initial states
-    #initPos = None
+    # initPos = None
 
     # directions
     Forward = "w"
@@ -85,23 +85,23 @@ class KarrEnvironment(Environment, Named):
         self.car.stop()
 
     def performAction(self, action):
-	#action = 1
+        # action = 1
         action = np.int_(action[0])
         if self.stochAction > 0:
             if random() < self.stochAction:
                 action = choice(list(range(len(self.allActions))))
-        print( "Action: ", action )
+        print("Action: ", action)
         tmp = self.command(self.allActions[action])
-
 
     def getDirection(self):
         return self.direction
 
-    def getDistance(self, sensor = 0):
+    def getDistance(self, sensor=0):
         return self.car.distance(sensor)
 
     def getSensors(self):
-        return [self.getDistance(0), self.getDistance(1), self.getDistance(2)]
-
-
-
+        sensors = [self.getDistance(0), self.getDistance(1), self.getDistance(2)]
+        if min(sensors) < 5:
+            self.command("x")
+            self.command("c")
+        return sensors
