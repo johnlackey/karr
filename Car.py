@@ -174,7 +174,7 @@ class Car(object):
     def distance(self, sensor = 0):
 	#sum = 0.0
 	list = []
-	for i in range(3):
+	for i in range(1):
             #sum += self.raw_distance(sensor)
             value = 100
             while value == 100:
