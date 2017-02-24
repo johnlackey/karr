@@ -83,4 +83,4 @@ try:
 
 except KeyboardInterrupt:
     print("Shutting down")
-    GPIO.cleanup()
+    #GPIO.cleanup()

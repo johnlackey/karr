@@ -181,12 +181,15 @@ class Car(object):
         list = []
         for i in range(1):
             # sum += self.raw_distance(sensor)
-            value = 100
-            while value == 100:
+            #value = 100
+            #while value == 100:
                 # value = self.raw_distance(sensor)
-                value = self.sensor[sensor].distance * 100
-            if value != 500:
-                list.append(value)
+                #value = self.sensor[sensor].distance * 100
+            #if value != 500:
+                #list.append(value)
+            value = self.sensor[sensor].distance * 100.0
+            print(value)
+            list.append(value)
         list.sort()
         # print( "Length of list: %d" % len(list) )
         if len(list) > 0:
@@ -198,4 +201,5 @@ class Car(object):
         # return sum / 10
 
     def destroy(self):
-        GPIO.cleanup()
+        print("destroy Carr")
+        #GPIO.cleanup()
