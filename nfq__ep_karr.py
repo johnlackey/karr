@@ -6,7 +6,7 @@ __author__ = 'Thomas Rueckstiess, ruecksti@in.tum.de'
 from karr_environment import KarrEnvironment
 from karr_task import KarrTask
 from pybrain.rl.agents import LearningAgent
-from pybrain.rl.experiments import ContinuousExperiment
+from pybrain.rl.experiments import EpisodicExperiment
 from pybrain.rl.learners.valuebased import NFQ, ActionValueNetwork
 from pybrain.rl.explorers import BoltzmannExplorer
 
