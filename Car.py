@@ -3,8 +3,11 @@
 # example of using this class.
 # Author: Tony DiCola
 # License: MIT License https://opensource.org/licenses/MIT
-import time
+import array
 import atexit
+import time
+import RPi.GPIO as GPIO
+#import statistics
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT
 
@@ -37,6 +40,19 @@ class Car(object):
         # Configure all motors to stop at program exit if desired.
         if stop_at_exit:
             atexit.register(self.stop)
+	# setup ultrasonic sensor
+        self.TRIG = [11, 15, 18]
+        self.ECHO = [12, 16, 22]
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(self.TRIG[0], GPIO.OUT)
+        GPIO.setup(self.ECHO[0], GPIO.IN)
+        GPIO.setup(self.TRIG[1], GPIO.OUT)
+        GPIO.setup(self.ECHO[1], GPIO.IN)
+        GPIO.setup(self.TRIG[2], GPIO.OUT)
+        GPIO.setup(self.ECHO[2], GPIO.IN)
+        #
+        #https://www.sunfounder.com/learn/sensor-kit-v2-0-for-raspberry-pi-b-plus/lesson-25-ultrasonic-ranging-module-sensor-kit-v2-0-for-b-plus.html
+
 
     def _drive_speed(self, speed):
         """Set the speed of the drive motor, taking into account its trim offset.
@@ -121,3 +137,60 @@ class Car(object):
         if seconds is not None:
             time.sleep(seconds)
             self.stop()
+
+    def raw_distance(self, sensor = 0):
+        if GPIO.input(self.ECHO[sensor]):
+            return(100)
+        distance = 0
+        GPIO.output(self.TRIG[sensor], 0)
+        time.sleep(0.05)
+        GPIO.output(self.TRIG[sensor], 1)
+        dummy_variable = 0
+        dummy_variable = 0
+        #time.sleep(0.00001)
+        GPIO.output(self.TRIG[sensor], 0)
+        time1, time2 = time.time(), time.time()
+        while GPIO.input(self.ECHO[sensor]) == 0:
+            a = 0
+            time1 = time.time()
+            if time1 - time2 > 0.02:
+                distance = 100
+                break
+        if distance == 100:
+            return (distance)
+        while GPIO.input(self.ECHO[sensor]) == 1:
+            a = 1
+            time2 = time.time()
+            if time2 - time1 > 0.02:
+                distance = 500
+                break
+        if distance == 500:
+            return(distance)
+        during = time2 - time1
+        distance_value = during / 0.00000295 / 2 / 10
+        #print( "Raw Distance: %d" % distance_value )
+        return distance_value
+
+    def distance(self, sensor = 0):
+	#sum = 0.0
+	list = []
+	for i in range(1):
+            #sum += self.raw_distance(sensor)
+            value = 100
+            while value == 100:
+                value = self.raw_distance(sensor)
+	    if value != 500:
+                list.append(value)
+        list.sort()
+	#print( "Length of list: %d" % len(list) )
+        if len(list) > 0:
+            index = len(list) // 2
+            #print( "Index: %d" % index )
+            print( "Distance%d: %d" % (sensor, list[len(list)//2]) )
+            return list[index]
+        return 9999
+        #return sum / 10
+
+    def destroy():
+        GPIO.cleanup()
+

@@ -12,6 +12,8 @@ from pybrain.rl.explorers import BoltzmannExplorer
 
 from numpy import array, arange, meshgrid, pi, zeros, mean
 from matplotlib import pyplot as plt
+from pybrain.tools.customxml import NetworkWriter, NetworkReader
+import RPi.GPIO as GPIO
 
 # switch this to True if you want to see the cart balancing the pole (slower)
 render = False
@@ -20,13 +22,18 @@ plt.ion()
 
 env = KarrEnvironment()
 
-module = ActionValueNetwork(4, 3)
+module = ActionValueNetwork(3, 7)
+try:
+  module.network = NetworkReader.readFrom("savedNetwork.xml")
+except:
+  print("No network file")
 
-task = KarrTask(env, 100)
+task = KarrTask(env)
 learner = NFQ()
 learner.explorer.epsilon = 0.4
 
 agent = LearningAgent(module, learner)
+
 testagent = LearningAgent(module, None)
 experiment = ContinuousExperiment(task, agent)
 
@@ -40,29 +47,40 @@ def plotPerformance(values, fig):
 
 performance = []
 
-if not render:
-    pf_fig = plt.figure()
+#if not render:
+pf_fig = plt.figure()
 
-while(True):
-	# one learning step after one episode of world-interaction
-    experiment.doEpisodes(1)
-    agent.learn(1)
 
-    # test performance (these real-world experiences are not used for training)
-    if render:
-        env.delay = True
-    experiment.agent = testagent
-    r = mean([sum(x) for x in experiment.doEpisodes(5)])
-    env.delay = False
-    testagent.reset()
-    experiment.agent = agent
+try:
+    print("Press ctrt + c to stop and exit")
+    experiment.doInteractions(10)
 
-    performance.append(r)
-    if not render:
+    while(True):
+        # one learning step after one episode of world-interaction
+        experiment.doInteractionsAndLearn(10)
+        #r = mean([sum(x) for x in experiment.doInteractions(10)])
+        #agent.learn(1)
+
+        # test performance (these real-world experiences are not used for training)
+        #if render:
+        #    env.delay = True
+        #experiment.agent = testagent
+        #r = mean([sum(x) for x in experiment.doInteractions(5)])
+        #env.delay = False
+        #testagent.reset()
+        #experiment.agent = agent
+
+        r = agent.lastreward
+        performance.append(r)
+        #if not render:
         plotPerformance(performance, pf_fig)
 
-    print("reward avg", r)
-    print("explorer epsilon", learner.explorer.epsilon)
-    print("num episodes", agent.history.getNumSequences())
-    print("update step", len(performance))
+        NetworkWriter.writeToFile(agent.module.network, "savedNetwork.xml")
+        print("reward avg", r)
+        print("explorer epsilon", learner.explorer.epsilon)
+        print("num episodes", agent.history.getNumSequences())
+        print("update step", len(performance))
 
+except KeyboardInterrupt:
+    print("Shutting down")
+    GPIO.cleanup()
