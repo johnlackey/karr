@@ -51,29 +51,35 @@ pf_fig = plt.figure()
 
 
 experiment.doInteractions(10)
-while(True):
-    # one learning step after one episode of world-interaction
-    experiment.doInteractionsAndLearn(10)
-    #r = mean([sum(x) for x in experiment.doInteractions(10)])
-    #agent.learn(1)
 
-    # test performance (these real-world experiences are not used for training)
-    #if render:
-    #    env.delay = True
-    #experiment.agent = testagent
-    #r = mean([sum(x) for x in experiment.doInteractions(5)])
-    #env.delay = False
-    #testagent.reset()
-    #experiment.agent = agent
+try:
+    print("Press ctrt + c to stop and exit")
+    while(True):
+        # one learning step after one episode of world-interaction
+        experiment.doInteractionsAndLearn(10)
+        #r = mean([sum(x) for x in experiment.doInteractions(10)])
+        #agent.learn(1)
 
-    r = agent.lastreward
-    performance.append(r)
-    #if not render:
-    plotPerformance(performance, pf_fig)
+        # test performance (these real-world experiences are not used for training)
+        #if render:
+        #    env.delay = True
+        #experiment.agent = testagent
+        #r = mean([sum(x) for x in experiment.doInteractions(5)])
+        #env.delay = False
+        #testagent.reset()
+        #experiment.agent = agent
 
-    NetworkWriter.writeToFile(agent.module.network, "savedNetwork.xml")
-    print("reward avg", r)
-    print("explorer epsilon", learner.explorer.epsilon)
-    print("num episodes", agent.history.getNumSequences())
-    print("update step", len(performance))
+        r = agent.lastreward
+        performance.append(r)
+        #if not render:
+        plotPerformance(performance, pf_fig)
 
+        NetworkWriter.writeToFile(agent.module.network, "savedNetwork.xml")
+        print("reward avg", r)
+        print("explorer epsilon", learner.explorer.epsilon)
+        print("num episodes", agent.history.getNumSequences())
+        print("update step", len(performance))
+
+except KeyboardInterrupt:
+    print("Shutting down")
+    GPIO.cleanup()
