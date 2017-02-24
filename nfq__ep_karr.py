@@ -4,7 +4,7 @@ from __future__ import print_function
 __author__ = 'Thomas Rueckstiess, ruecksti@in.tum.de'
 
 from karr_environment import KarrEnvironment
-from karr_task_episodic import KarrTask
+from karr_task_episodic import KarrTaskEpisodic
 from pybrain.rl.agents import LearningAgent
 from pybrain.rl.experiments import EpisodicExperiment
 from pybrain.rl.learners.valuebased import NFQ, ActionValueNetwork
