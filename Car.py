@@ -53,9 +53,9 @@ class Car(object):
         # GPIO.setup(self.ECHO[2], GPIO.IN)
         #
         self.sensor = [
-            DistanceSensor(17, 18),
-            DistanceSensor(22, 23),
-            DistanceSensor(24, 25)
+            DistanceSensor(18, 17),
+            DistanceSensor(23, 22),
+            DistanceSensor(25, 24)
         ]
         # https://www.sunfounder.com/learn/sensor-kit-v2-0-for-raspberry-pi-b-plus/lesson-25-ultrasonic-ranging-module-sensor-kit-v2-0-for-b-plus.html
 
