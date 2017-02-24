@@ -67,7 +67,9 @@ try:
         #if render:
         #    env.delay = True
         experiment.agent = testagent
-        r = mean([sum(x) for x in experiment.doInteractions(5)])
+        y = experiment.doInteractions(5)
+        print(y)
+        r = mean([sum(x) for x in y])
         env.delay = False
         testagent.reset()
         experiment.agent = agent
