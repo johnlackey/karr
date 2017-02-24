@@ -101,7 +101,10 @@ class KarrEnvironment(Environment, Named):
 
     def getSensors(self):
         sensors = [self.getDistance(0), self.getDistance(1), self.getDistance(2)]
-        if min(sensors) < 10:
+        #if min(sensors) < 10:
             # self.command("x")
-            self.command("c")
+            #self.command("c")
         return sensors
+
+    def reset(self):
+        self.command("c")

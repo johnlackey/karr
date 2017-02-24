@@ -28,6 +28,7 @@ class KarrTask(Task):
     def __init__(self, env):
         Task.__init__(self, env)
         self.minReward = min(self.bangPenalty, self.defaultPenalty)
+        self.finished = false
 
     def getReward(self):
         #if 100 == 0:
@@ -39,6 +40,7 @@ class KarrTask(Task):
         minDistance = min(self.env.getSensors())
         if minDistance < 10:
             reward = -10
+            self.finished = true
         elif minDistance < 50:
             reward =  -2
         else:
@@ -46,8 +48,11 @@ class KarrTask(Task):
         print "Reward: %d" % reward
         return reward
 
+    #def reset(self):
+    #    print("KarrTask::reset")
+
     def isFinished(self):
-        return self.env.perseus == self.env.goal or POMDPTask.isFinished(self)
+        return self.finished or self.env.perseus == self.env.goal or POMDPTask.isFinished(self)
 
     def __str__(self):
         return str(self.env)
