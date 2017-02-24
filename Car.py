@@ -188,7 +188,7 @@ class Car(object):
             #if value != 500:
                 #list.append(value)
             value = self.sensor[sensor].distance * 100
-            print(value)
+            #print(value)
             list.append(value)
         list.sort()
         # print( "Length of list: %d" % len(list) )
