@@ -50,10 +50,10 @@ performance = []
 pf_fig = plt.figure()
 
 
-experiment.doInteractions(10)
-
 try:
     print("Press ctrt + c to stop and exit")
+    experiment.doInteractions(10)
+
     while(True):
         # one learning step after one episode of world-interaction
         experiment.doInteractionsAndLearn(10)
