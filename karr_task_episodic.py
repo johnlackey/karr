@@ -3,7 +3,7 @@ __author__ = 'Tom Schaul, tom@idsia.ch'
 from scipy import array
 
 from pybrain.rl.environments.mazes import Maze
-from pybrain.rl.environments.episodictask import EpisodicTask
+from pybrain.rl.environments.episodic import EpisodicTask
 
 
 class KarrTaskEpisodic(EpisodicTask):
@@ -26,7 +26,7 @@ class KarrTaskEpisodic(EpisodicTask):
         return self.stochObs > 0
 
     def __init__(self, env):
-        Task.__init__(self, env)
+        EpisodicTask.__init__(self, env)
         self.minReward = min(self.bangPenalty, self.defaultPenalty)
         self.finished = False
 
@@ -52,13 +52,13 @@ class KarrTaskEpisodic(EpisodicTask):
     #    print("KarrTask::reset")
 
     def isFinished(self):
-        return self.finished or self.env.perseus == self.env.goal or POMDPTask.isFinished(self)
+        return self.finished or self.env.perseus == self.env.goal 
 
     def __str__(self):
         return str(self.env)
 
 
-class TrivialKarr(KarrTask):
+class TrivialKarr(KarrTaskEpisodic):
     """
     #####
     #. *#

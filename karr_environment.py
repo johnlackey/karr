@@ -18,10 +18,10 @@ class KarrEnvironment(Environment, Named):
     # mazeTable = None
 
     # single goal
-    # goal = None
+    goal = 20000
 
     # current state
-    # perseus = None
+    perseus = None
 
     # list of possible initial states
     # initPos = None

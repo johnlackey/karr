@@ -28,7 +28,7 @@ try:
 except:
   print("No network file")
 
-task = KarrTask(env)
+task = KarrTaskEpisodic(env)
 learner = NFQ()
 learner.explorer.epsilon = 0.4
 
