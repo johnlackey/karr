@@ -9,9 +9,12 @@ import time
 import RPi.GPIO as GPIO
 from gpiozero import DistanceSensor
 # import statistics
+import signal
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT
 
+def handler(signum, frame):
+    raise Exception("end of time")
 
 class Car(object):
     def __init__(self, addr=0x60, drive_id=2, steer_id=1, drive_trim=0, steer_trim=0,
@@ -188,7 +191,13 @@ class Car(object):
             #if value != 500:
                 #list.append(value)
             time.sleep(0.05)
-            value = self.sensor[sensor].distance * 100
+            signal.signal(signal.SIGALRM, handler)
+            signal.alarm(1)
+            try:
+                value = self.sensor[sensor].distance * 100
+            except Exception:
+                value = 0
+            signal.alarm(0)
             #print(value)
             list.append(value)
         list.sort()
