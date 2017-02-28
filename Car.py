@@ -187,6 +187,7 @@ class Car(object):
                 #value = self.sensor[sensor].distance * 100
             #if value != 500:
                 #list.append(value)
+            time.sleep(0.05)
             value = self.sensor[sensor].distance * 100
             #print(value)
             list.append(value)

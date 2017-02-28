@@ -110,6 +110,6 @@ class KarrEnvironment(Environment, Named):
         print("Environment:reset -- backup")
         self.command("c")
         print("Environment:reset -- sleep")
-        time.sleep(1)
+        time.sleep(2)
         print("Environment:reset -- stop")
         self.command("s")
