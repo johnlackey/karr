@@ -4,9 +4,9 @@ from __future__ import print_function
 __author__ = 'Thomas Rueckstiess, ruecksti@in.tum.de'
 
 from karr_environment import KarrEnvironment
-from karr_task import KarrTask
+from karr_task_episodic import KarrTaskEpisodic
 from pybrain.rl.agents import LearningAgent
-from pybrain.rl.experiments import ContinuousExperiment
+from pybrain.rl.experiments import EpisodicExperiment
 from pybrain.rl.learners.valuebased import NFQ, ActionValueNetwork
 from pybrain.rl.explorers import BoltzmannExplorer
 
@@ -28,14 +28,14 @@ try:
 except:
   print("No network file")
 
-task = KarrTask(env)
+task = KarrTaskEpisodic(env)
 learner = NFQ()
 learner.explorer.epsilon = 0.4
 
 agent = LearningAgent(module, learner)
 
 testagent = LearningAgent(module, None)
-experiment = ContinuousExperiment(task, agent)
+experiment = EpisodicExperiment(task, agent)
 
 def plotPerformance(values, fig):
     plt.figure(fig.number)
@@ -53,11 +53,15 @@ pf_fig = plt.figure()
 
 try:
     print("Press ctrt + c to stop and exit")
-    experiment.doInteractions(10)
+    #experiment.doInteractions(10)
 
     while(True):
+        y = experiment.doEpisodes(1)
+        print("Output from doEpisodes train")
+        print(y)
+        agent.learn(1)
         # one learning step after one episode of world-interaction
-        experiment.doInteractionsAndLearn(10)
+        #experiment.doInteractionsAndLearn(10)
         #r = mean([sum(x) for x in experiment.doInteractions(10)])
         #agent.learn(1)
 
@@ -65,18 +69,21 @@ try:
         #if render:
         #    env.delay = True
         #experiment.agent = testagent
-        #r = mean([sum(x) for x in experiment.doInteractions(5)])
-        #env.delay = False
+        #y = experiment.doEpisodes(5)
+        #print("Output from doEpisodes test")
+        #print(y)
+        #r = mean([sum(x) for x in y])
+        env.delay = False
         #testagent.reset()
         #experiment.agent = agent
 
-        r = agent.lastreward
-        performance.append(r)
+        #r = agent.lastreward
+        #performance.append(r)
         #if not render:
-        plotPerformance(performance, pf_fig)
+        #plotPerformance(performance, pf_fig)
 
         NetworkWriter.writeToFile(agent.module.network, "savedNetwork.xml")
-        print("reward avg", r)
+        #print("reward avg", r)
         print("explorer epsilon", learner.explorer.epsilon)
         print("num episodes", agent.history.getNumSequences())
         print("update step", len(performance))
