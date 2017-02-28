@@ -56,7 +56,9 @@ try:
     #experiment.doInteractions(10)
 
     while(True):
-        experiment.doEpisodes(1)
+        y = experiment.doEpisodes(1)
+        print("Output from doEpisodes train")
+        print(y)
         agent.learn(1)
         # one learning step after one episode of world-interaction
         #experiment.doInteractionsAndLearn(10)
@@ -66,21 +68,22 @@ try:
         # test performance (these real-world experiences are not used for training)
         #if render:
         #    env.delay = True
-        experiment.agent = testagent
-        y = experiment.doEpisodes(5)
-        print(y)
-        r = mean([sum(x) for x in y])
+        #experiment.agent = testagent
+        #y = experiment.doEpisodes(5)
+        #print("Output from doEpisodes test")
+        #print(y)
+        #r = mean([sum(x) for x in y])
         env.delay = False
-        testagent.reset()
-        experiment.agent = agent
+        #testagent.reset()
+        #experiment.agent = agent
 
         #r = agent.lastreward
-        performance.append(r)
+        #performance.append(r)
         #if not render:
-        plotPerformance(performance, pf_fig)
+        #plotPerformance(performance, pf_fig)
 
         NetworkWriter.writeToFile(agent.module.network, "savedNetwork.xml")
-        print("reward avg", r)
+        #print("reward avg", r)
         print("explorer epsilon", learner.explorer.epsilon)
         print("num episodes", agent.history.getNumSequences())
         print("update step", len(performance))
