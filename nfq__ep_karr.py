@@ -13,7 +13,7 @@ from pybrain.rl.explorers import BoltzmannExplorer
 from numpy import array, arange, meshgrid, pi, zeros, mean
 from matplotlib import pyplot as plt
 from pybrain.tools.customxml import NetworkWriter, NetworkReader
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 
 # switch this to True if you want to see the cart balancing the pole (slower)
 render = False
