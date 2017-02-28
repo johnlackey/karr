@@ -48,8 +48,10 @@ class KarrTaskEpisodic(EpisodicTask):
         print "Reward: %d" % reward
         return reward
 
-    #def reset(self):
-    #    print("KarrTask::reset")
+    def reset(self):
+        EpisodicTask.reset(self)
+	self.finished = False
+        print("KarrTask::reset")
 
     def isFinished(self):
         return self.finished or self.env.perseus == self.env.goal 
