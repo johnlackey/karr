@@ -8,6 +8,7 @@ import atexit
 import time
 import RPi.GPIO as GPIO
 from gpiozero import DistanceSensor
+from gpiozero import Button
 # import statistics
 import signal
 
@@ -58,7 +59,8 @@ class Car(object):
         self.sensor = [
             DistanceSensor(18, 17),
             DistanceSensor(23, 22),
-            DistanceSensor(25, 24)
+            DistanceSensor(25, 24),
+            Button(4)
         ]
         # https://www.sunfounder.com/learn/sensor-kit-v2-0-for-raspberry-pi-b-plus/lesson-25-ultrasonic-ranging-module-sensor-kit-v2-0-for-b-plus.html
 
@@ -209,6 +211,9 @@ class Car(object):
             return list[index]
         return 9999
         # return sum / 10
+
+    def crashed(self):
+        return self.sensor[3].isPressed
 
     def destroy(self):
         print("destroy Carr")

@@ -31,18 +31,18 @@ class KarrTaskEpisodic(EpisodicTask):
         self.finished = False
 
     def getReward(self):
-        #if 100 == 0:
+        # if 100 == 0:
         #    return self.finalReward
-        #elif self.env.bang:
+        # elif self.env.bang:
         #    return self.bangPenalty
-        #else:
-        #return self.defaultPenalty
+        # else:
+        # return self.defaultPenalty
         minDistance = min(self.env.getSensors())
-        if minDistance < 10:
+        if minDistance < 10 or self.env.isCrashed():
             reward = -10
             self.finished = True
         elif minDistance < 50:
-            reward =  -2
+            reward = -2
         else:
             reward = 1 * self.env.getDirection()
         print "Reward: %d" % reward
@@ -50,11 +50,11 @@ class KarrTaskEpisodic(EpisodicTask):
 
     def reset(self):
         EpisodicTask.reset(self)
-	self.finished = False
+        self.finished = False
         print("KarrTask::reset")
 
     def isFinished(self):
-        return self.finished or self.env.perseus == self.env.goal 
+        return self.finished or self.env.perseus == self.env.goal
 
     def __str__(self):
         return str(self.env)
@@ -72,4 +72,3 @@ class TrivialKarr(KarrTaskEpisodic):
                       [1, 0, 0, 0, 1],
                       [1] * 5, ])
     goal = (1, 3)
-

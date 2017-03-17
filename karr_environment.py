@@ -99,6 +99,9 @@ class KarrEnvironment(Environment, Named):
     def getDistance(self, sensor=0):
         return self.car.distance(sensor)
 
+    def isCrashed(self):
+        return self.car.crashed()
+
     def getSensors(self):
         sensors = [self.getDistance(0), self.getDistance(1), self.getDistance(2)]
         #if min(sensors) < 10:
