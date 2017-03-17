@@ -213,7 +213,7 @@ class Car(object):
         # return sum / 10
 
     def crashed(self):
-        return self.sensor[3].isPressed
+        return not self.sensor[3].is_pressed
 
     def destroy(self):
         print("destroy Carr")
