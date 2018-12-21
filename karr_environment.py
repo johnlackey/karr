@@ -46,7 +46,7 @@ class KarrEnvironment(Environment, Named):
         self.car = Car.Car()
 
     def command(self, action):
-        speed = 200
+        speed = 150
         print(action)
         if action == "q":
             self.car.forward(speed)
@@ -81,8 +81,8 @@ class KarrEnvironment(Environment, Named):
         elif action == "s":
             self.car.stop()
             self.direction = 0
-        time.sleep(1)
-        self.car.stop()
+        #time.sleep(1)
+        #self.car.stop()
 
     def performAction(self, action):
         # action = 1
@@ -99,6 +99,9 @@ class KarrEnvironment(Environment, Named):
     def getDistance(self, sensor=0):
         return self.car.distance(sensor)
 
+    def isCrashed(self):
+        return self.car.crashed()
+
     def getSensors(self):
         sensors = [self.getDistance(0), self.getDistance(1), self.getDistance(2)]
         #if min(sensors) < 10:
@@ -107,4 +110,9 @@ class KarrEnvironment(Environment, Named):
         return sensors
 
     def reset(self):
+        print("Environment:reset -- backup")
         self.command("c")
+        print("Environment:reset -- sleep")
+        time.sleep(2)
+        print("Environment:reset -- stop")
+        self.command("s")

@@ -8,10 +8,14 @@ import atexit
 import time
 import RPi.GPIO as GPIO
 from gpiozero import DistanceSensor
+from gpiozero import Button
 # import statistics
+import signal
 
 from Adafruit_MotorHAT import Adafruit_MotorHAT
 
+def handler(signum, frame):
+    raise Exception("end of time")
 
 class Car(object):
     def __init__(self, addr=0x60, drive_id=2, steer_id=1, drive_trim=0, steer_trim=0,
@@ -55,9 +59,11 @@ class Car(object):
         self.sensor = [
             DistanceSensor(18, 17),
             DistanceSensor(23, 22),
-            DistanceSensor(25, 24)
+            DistanceSensor(25, 24),
+            #Button(4)
         ]
         # https://www.sunfounder.com/learn/sensor-kit-v2-0-for-raspberry-pi-b-plus/lesson-25-ultrasonic-ranging-module-sensor-kit-v2-0-for-b-plus.html
+
 
     def _drive_speed(self, speed):
         """Set the speed of the drive motor, taking into account its trim offset.
@@ -187,7 +193,14 @@ class Car(object):
                 #value = self.sensor[sensor].distance * 100
             #if value != 500:
                 #list.append(value)
-            value = self.sensor[sensor].distance * 100
+            time.sleep(0.05)
+            signal.signal(signal.SIGALRM, handler)
+            signal.alarm(1)
+            try:
+                value = self.sensor[sensor].distance * 100
+            except Exception:
+                value = 0
+            signal.alarm(0)
             #print(value)
             list.append(value)
         list.sort()
@@ -200,6 +213,24 @@ class Car(object):
         return 9999
         # return sum / 10
 
+    def crashed(self):
+	x = self.getchar()
+	print 'Key pressed: ', x
+	return x == 'y'
+        #return not self.sensor[3].is_pressed
+
     def destroy(self):
         print("destroy Carr")
         #GPIO.cleanup()
+
+    def getchar(self):
+       #Returns a single character from standard input
+       import tty, termios, sys
+       fd = sys.stdin.fileno()
+       old_settings = termios.tcgetattr(fd)
+       try:
+          tty.setraw(sys.stdin.fileno())
+          ch = sys.stdin.read(1)
+       finally:
+          termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+       return ch
