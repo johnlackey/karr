@@ -60,9 +60,10 @@ class Car(object):
             DistanceSensor(18, 17),
             DistanceSensor(23, 22),
             DistanceSensor(25, 24),
-            Button(4)
+            #Button(4)
         ]
         # https://www.sunfounder.com/learn/sensor-kit-v2-0-for-raspberry-pi-b-plus/lesson-25-ultrasonic-ranging-module-sensor-kit-v2-0-for-b-plus.html
+
 
     def _drive_speed(self, speed):
         """Set the speed of the drive motor, taking into account its trim offset.
@@ -213,8 +214,23 @@ class Car(object):
         # return sum / 10
 
     def crashed(self):
-        return not self.sensor[3].is_pressed
+	x = self.getchar()
+	print 'Key pressed: ', x
+	return x == 'y'
+        #return not self.sensor[3].is_pressed
 
     def destroy(self):
         print("destroy Carr")
         #GPIO.cleanup()
+
+    def getchar(self):
+       #Returns a single character from standard input
+       import tty, termios, sys
+       fd = sys.stdin.fileno()
+       old_settings = termios.tcgetattr(fd)
+       try:
+          tty.setraw(sys.stdin.fileno())
+          ch = sys.stdin.read(1)
+       finally:
+          termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+       return ch
